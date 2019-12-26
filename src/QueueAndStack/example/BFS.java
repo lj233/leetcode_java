@@ -1,6 +1,7 @@
 package QueueAndStack.example;
 
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
 /**
@@ -15,11 +16,9 @@ public class BFS {
     static int map[][] = new int[4][4];
 
     public static void main(String[] args) {
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                map[i][j] = 0;
-            }
-        }
+        //填充初始值
+        Arrays.fill(map,0);
+
         new BFS().bfs(3, 3);
     }
 
