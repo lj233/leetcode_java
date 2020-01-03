@@ -36,6 +36,12 @@
         * 作用范围
             * 作用在方法上时，锁住的是实例的对象this
             * 作用在静态方法时 ，锁住的是Class对象
-            * 
+        *  核心组件
+            + Wait Set：哪些调用 wait 方法被阻塞的线程被放置在这里；
+            + Contention List：竞争队列，所有请求锁的线程首先被放在这个竞争队列中；
+            + Entry List：Contention List 中那些有资格成为候选资源的线程被移动到 Entry List 中；
+            + OnDeck：任意时刻，最多只有一个线程正在竞争锁资源，该线程被成为 OnDeck；
+            + Owner：当前已经获取到所资源的线程被称为 Owner；
+            + !Owner：当前释放锁的线程。
 
    
