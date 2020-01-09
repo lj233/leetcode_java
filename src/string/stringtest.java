@@ -40,4 +40,8 @@ public class stringtest {
         System.out.println("s.toCharArray."+str);
 
     }
+
+    public void test(){
+
+    }
 }
