@@ -29,8 +29,9 @@ import java.util.Stack;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class Main144 {
+    static TreeNode treeNode;
     public static void main(String[] args) {
-        TreeNode treeNode = new TreeNode(1);
+         treeNode = new TreeNode(1);
         TreeNode treeNode1 = new TreeNode(2);
         TreeNode treeNode2 = new TreeNode(4);
         TreeNode treeNode3 = new TreeNode(5);

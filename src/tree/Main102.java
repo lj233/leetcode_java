@@ -61,6 +61,7 @@ class Solution102 {
     public List<List<Integer>> levelOrder(TreeNode root) {
         List<List<Integer>> lists = new ArrayList<>();
         LinkedList<TreeNode> treeNodes = new LinkedList<>();
+        if (root!=null)
         treeNodes.add(root);
         recursive(lists,treeNodes);
         return lists;
@@ -80,6 +81,5 @@ class Solution102 {
             lists.add(list);
             recursive(lists, treeNodes);
         }
-
     }
 }
