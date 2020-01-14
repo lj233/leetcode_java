@@ -105,10 +105,15 @@ dp[i][j - nums[i] + 1000] += dp[i - 1][j + 1000]
 
 
 // 动态规划 背包问题
-class Main {
+class Maindp {
     public static void main(String[] args) {
-        int[] w = { 0, 2, 3, 4, 5, 9 };
-        int[] v = { 0, 3, 4, 5, 8, 10 };
+        Maindp maindp = new Maindp();
+        maindp.jinkuang();
+    }
+
+    public void beibao(){
+        int[] w = { 0, 2, 3, 4, 5, 9 };// 物品的占用数
+        int[] v = { 0, 3, 4, 5, 8, 10 }; // 物品的价值
         int N = 6, W = 21;//6种物品，20个格子空间
         int[][] b = new int[N][W];
         for (int k = 1; k < N; k++) {
@@ -129,5 +134,30 @@ class Main {
             System.out.println();
         }
         System.out.println(b[5][20]);
+    }
+    //金矿问题，动态规划 ，自底向上，递归，从上到下
+    public void jinkuang(){
+        int[] w = { 0, 5, 5, 3, 4, 3 };// 物品的占用数
+        int[] v = { 0, 400, 500, 200, 300, 350 }; // 物品的价值
+        int N = 6, W = 11;//6种物品，20个格子空间
+        int[][] b = new int[N][W];
+        for (int k = 1; k < N; k++) {
+            for (int c = 1; c < W; c++) {
+                if (w[k] > c) {//重量剩余容量时
+                    b[k][c] = b[k - 1][c];
+                } else {
+                    int value1 = b[k - 1][c - w[k]] + v[k]; // 拿第k件物品
+                    int value2 = b[k - 1][c]; // 不拿第k件物品
+                    b[k][c] = Math.max(value1, value2);
+                }
+            }
+        }
+        for (int i = 0; i < b.length; i++) {
+            for (int j = 0; j < b[0].length; j++) {
+                System.out.print(b[i][j]+"\t");
+            }
+            System.out.println();
+        }
+        System.out.println(b[5][10]);
     }
 }
