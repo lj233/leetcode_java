@@ -34,15 +34,15 @@ class Solution209 {
         int last = 0;
         int sum = 0;
         //先定义一个大的
-        int res = nums.length+1;
+        int res = nums.length + 1;
         //滑动窗口
         for (int i = 0; i < nums.length; i++) {
-            sum+=nums[i];
-            if (sum>=s) {
+            sum += nums[i];
+            if (sum >= s) {
                 while (sum >= s) sum -= nums[last++];
-                res = Math.min(res, i - last + 1+1);
+                res = Math.min(res, i - last + 1 + 1);
             }
         }
-         return res>nums.length?0:res;
+        return res > nums.length ? 0 : res;
     }
 }

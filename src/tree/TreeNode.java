@@ -22,12 +22,12 @@ public class TreeNode {
         TreeNode treeNode4 = new TreeNode(3);
         TreeNode treeNode5 = new TreeNode(6);
 
-        treeNode.left=treeNode1;
-        treeNode.right=treeNode4;
+        treeNode.left = treeNode1;
+        treeNode.right = treeNode4;
 
-        treeNode1.left=treeNode2;
-        treeNode1.right=treeNode3;
+        treeNode1.left = treeNode2;
+        treeNode1.right = treeNode3;
 
-        treeNode4.left=treeNode5;
+        treeNode4.left = treeNode5;
     }
 }

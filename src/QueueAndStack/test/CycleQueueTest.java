@@ -21,10 +21,10 @@ public class CycleQueueTest {
         double d2 = m.next(10);
         double d3 = m.next(3);
         double d4 = m.next(5);
-        System.out.println("1:"+d1);
-        System.out.println("2:"+d2);
-        System.out.println("3:"+d3);
-        System.out.println("4:"+d4);
+        System.out.println("1:" + d1);
+        System.out.println("2:" + d2);
+        System.out.println("3:" + d3);
+        System.out.println("4:" + d4);
     }
 
 }
@@ -47,18 +47,17 @@ class MovingAverage {
 
     public double next(int x) {
         if (isFull()) {
-            sum-=getPop();
-            sum+=x;
+            sum -= getPop();
+            sum += x;
             deQueue();
             enQueue(x);
-            return sum/((tail-head+size)%size+1);
+            return sum / ((tail - head + size) % size + 1);
         } else {
             enQueue(x);
-            return (sum+=x)/((tail-head+size)%size+1);
+            return (sum += x) / ((tail - head + size) % size + 1);
         }
 
     }
-
 
 
     public Boolean enQueue(int x) {
@@ -86,7 +85,8 @@ class MovingAverage {
         head = (head + 1) % size;
         return true;
     }
-    public int getPop(){
+
+    public int getPop() {
         return data[head];
     }
 

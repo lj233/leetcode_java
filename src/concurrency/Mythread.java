@@ -5,7 +5,7 @@ package concurrency;
  * @description 继承Thread类
  * @date 2019/12/25
  */
-public class Mythread  extends Thread{
+public class Mythread extends Thread {
     public static void main(String[] args) {
         Mythread mythread = new Mythread();
         mythread.start();

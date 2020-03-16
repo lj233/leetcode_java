@@ -10,15 +10,16 @@ import java.util.LinkedList;
  */
 public class Daoyu {
 
-       static char[][] grid = {{'1', '1', '1', '1', '0'}, {'1', '1', '0', '1', '0'}, {'1', '1','0', '0', '0'}, {'0', '0', '0', '0', '0'}};
+    static char[][] grid = {{'1', '1', '1', '1', '0'}, {'1', '1', '0', '1', '0'}, {'1', '1', '0', '0', '0'}, {'0', '0', '0', '0', '0'}};
 
     public static void main(String[] args) {
-       int num = new Solution().numIslands(grid);
+        int num = new Solution().numIslands(grid);
 
         System.out.println(num);
     }
 
 }
+
 class Solution {
 
     private int row;

@@ -19,7 +19,7 @@ class Solution118 {
 
     public List<List<Integer>> generate(int numRows) {
         List<List<Integer>> list = new ArrayList<>();
-        if (numRows==0) return list;
+        if (numRows == 0) return list;
         Integer[][] nums = new Integer[numRows][];
         for (int i = 0; i < numRows; i++) {
             nums[i] = new Integer[i + 1];

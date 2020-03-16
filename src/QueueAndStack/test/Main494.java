@@ -5,21 +5,21 @@ package QueueAndStack.test;
  * @description 目标和
  * @date 2020/1/7
  * 给定一个非负整数数组，a1, a2, ..., an, 和一个目标数，S。现在你有两个符号 + 和 -。对于数组中的任意一个整数，你都可以从 + 或 -中选择一个符号添加在前面。
- *
+ * <p>
  * 返回可以使最终数组和为目标数 S 的所有添加符号的方法数。
- *
+ * <p>
  * 示例 1:
- *
+ * <p>
  * 输入: nums: [1, 1, 1, 1, 1], S: 3
  * 输出: 5
  * 解释:
- *
+ * <p>
  * -1+1+1+1+1 = 3
  * +1-1+1+1+1 = 3
  * +1+1-1+1+1 = 3
  * +1+1+1-1+1 = 3
  * +1+1+1+1-1 = 3
- *
+ * <p>
  * 一共有5种方法让最终目标和为3。
  */
 public class Main494 {
@@ -34,10 +34,12 @@ public class Main494 {
 
 class Solution494 {
     int count = 0;
+
     public int findTargetSumWays(int[] nums, int S) {
         calculate(nums, 0, 0, S);
         return count;
     }
+
     public void calculate(int[] nums, int i, int sum, int S) {
         if (i == nums.length) {
             if (sum == S)
@@ -80,8 +82,8 @@ dp[i][j - nums[i] + 1000] += dp[i - 1][j + 1000]
                     dp[i][sum + nums[i] + 5] += dp[i - 1][sum + 5];
                     dp[i][sum - nums[i] + 5] += dp[i - 1][sum + 5];
 
-                    System.out.print(i+" "+ (sum + nums[i] + 5)+"  "+dp[i][sum + nums[i] + 5]+"  ");
-                    System.out.println(i+" "+ (sum - nums[i] + 5)+"  "+dp[i][sum - nums[i] + 5]);
+                    System.out.print(i + " " + (sum + nums[i] + 5) + "  " + dp[i][sum + nums[i] + 5] + "  ");
+                    System.out.println(i + " " + (sum - nums[i] + 5) + "  " + dp[i][sum - nums[i] + 5]);
                 }
             }
         }
@@ -92,7 +94,7 @@ dp[i][j - nums[i] + 1000] += dp[i - 1][j + 1000]
         for (int i = 0; i < dp.length; i++) {
             System.out.println();
             for (int j = 0; j < dp[0].length; j++) {
-                System.out.print(dp[i][j]+"\t");
+                System.out.print(dp[i][j] + "\t");
             }
             System.out.println();
         }
@@ -103,7 +105,6 @@ dp[i][j - nums[i] + 1000] += dp[i - 1][j + 1000]
 }
 
 
-
 // 动态规划 背包问题
 class Maindp {
     public static void main(String[] args) {
@@ -111,9 +112,9 @@ class Maindp {
         maindp.jinkuang();
     }
 
-    public void beibao(){
-        int[] w = { 0, 2, 3, 4, 5, 9 };// 物品的占用数
-        int[] v = { 0, 3, 4, 5, 8, 10 }; // 物品的价值
+    public void beibao() {
+        int[] w = {0, 2, 3, 4, 5, 9};// 物品的占用数
+        int[] v = {0, 3, 4, 5, 8, 10}; // 物品的价值
         int N = 6, W = 21;//6种物品，20个格子空间
         int[][] b = new int[N][W];
         for (int k = 1; k < N; k++) {
@@ -129,16 +130,17 @@ class Maindp {
         }
         for (int i = 0; i < b.length; i++) {
             for (int j = 0; j < b[0].length; j++) {
-                System.out.print(b[i][j]+"\t");
+                System.out.print(b[i][j] + "\t");
             }
             System.out.println();
         }
         System.out.println(b[5][20]);
     }
+
     //金矿问题，动态规划 ，自底向上，递归，从上到下
-    public void jinkuang(){
-        int[] w = { 0, 5, 5, 3, 4, 3 };// 物品的占用数
-        int[] v = { 0, 400, 500, 200, 300, 350 }; // 物品的价值
+    public void jinkuang() {
+        int[] w = {0, 5, 5, 3, 4, 3};// 物品的占用数
+        int[] v = {0, 400, 500, 200, 300, 350}; // 物品的价值
         int N = 6, W = 11;//6种物品，20个格子空间
         int[][] b = new int[N][W];
         for (int k = 1; k < N; k++) {
@@ -154,7 +156,7 @@ class Maindp {
         }
         for (int i = 0; i < b.length; i++) {
             for (int j = 0; j < b[0].length; j++) {
-                System.out.print(b[i][j]+"\t");
+                System.out.print(b[i][j] + "\t");
             }
             System.out.println();
         }

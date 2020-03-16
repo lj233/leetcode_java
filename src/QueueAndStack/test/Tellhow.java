@@ -9,12 +9,13 @@ import java.math.BigInteger;
  */
 public class Tellhow {
     static int sum = 33;
-    static int[] array = {1,3,10,20,13,55,6,78};
+    static int[] array = {1, 3, 10, 20, 13, 55, 6, 78};
+
     public static void main(String[] args) {
-        Integer a = 100,b=100,c=150,d=150;
+        Integer a = 100, b = 100, c = 150, d = 150;
         //150超过了128 由valueOf 变为new Integer
-        System.out.println(a==b);
-        System.out.println(c==d);
+        System.out.println(a == b);
+        System.out.println(c == d);
 
         BigInteger bigInteger = new BigInteger("1");
         BigInteger bigInteger2 = new BigInteger("2");
@@ -28,28 +29,27 @@ public class Tellhow {
         System.out.println(bigInteger4.toString());
 
 
-
-        test(array,sum);
+        test(array, sum);
     }
 
 
-    public  static void test(int[] array,int sum){
+    public static void test(int[] array, int sum) {
         int tempSum = 0;
-        for (int i = 0; i <array.length ; i++) {
-            tempSum+=array[i];
-            if (tempSum>sum) {
-                vail(tempSum,0,i);
+        for (int i = 0; i < array.length; i++) {
+            tempSum += array[i];
+            if (tempSum > sum) {
+                vail(tempSum, 0, i);
             }
         }
     }
 
-    public static boolean vail(int tempSum,int j,int i){
-        if (tempSum==sum) {
-            System.out.println(j+"        "+i);
+    public static boolean vail(int tempSum, int j, int i) {
+        if (tempSum == sum) {
+            System.out.println(j + "        " + i);
             return true;
         }
-        while (j<i){
-            return vail(tempSum-array[j],j+1,i);
+        while (j < i) {
+            return vail(tempSum - array[j], j + 1, i);
         }
         return false;
     }

@@ -19,6 +19,7 @@ public class Array2 {
             System.out.println();
         }
     }
+
     public static void main(String[] args) {
         System.out.println("Example I:");
         int[][] a = new int[2][5];

@@ -29,7 +29,7 @@ class Solution67 {
         //直接以二进制作为运算
         StringBuilder ans = new StringBuilder();
         int ca = 0;
-        for (int i = a.length()-1,j=b.length()-1; i >=0||j>=0 ; i--,j--) {
+        for (int i = a.length() - 1, j = b.length() - 1; i >= 0 || j >= 0; i--, j--) {
             int sum = ca;
             sum += i >= 0 ? a.charAt(i) - '0' : 0;
             sum += j >= 0 ? b.charAt(j) - '0' : 0;

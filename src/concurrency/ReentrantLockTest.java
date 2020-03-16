@@ -19,16 +19,15 @@ import java.util.concurrent.locks.ReentrantLock;
 public class ReentrantLockTest {
 
 
-
     public static void main(String[] args) {
-         Lock lock = new ReentrantLock();
+        Lock lock = new ReentrantLock();
         //Lock lock=new ReentrantLock(true);//公平锁
         //Lock lock=new ReentrantLock(false);//非公平锁
-         Condition condition = lock.newCondition();//创建 Condition
-        new ReentrantLockTest().testMethod(lock,condition);
+        Condition condition = lock.newCondition();//创建 Condition
+        new ReentrantLockTest().testMethod(lock, condition);
     }
 
-    public void testMethod(Lock lock,Condition condition) {
+    public void testMethod(Lock lock, Condition condition) {
         try {
             boolean flag = lock.tryLock();//lock 加锁
             System.out.println(flag);

@@ -17,14 +17,14 @@ public class BFS {
 
     public static void main(String[] args) {
         //填充初始值
-        Arrays.fill(map,0);
+        Arrays.fill(map, 0);
 
         new BFS().bfs(3, 3);
     }
 
     public void bfs(int end_r, int end_c) {
 
-        int next[][] = { { 0, 1 }, { 1, 0 }, { -1, 0 }, { 0, -1 } };// 4个方向
+        int next[][] = {{0, 1}, {1, 0}, {-1, 0}, {0, -1}};// 4个方向
         LinkedList<Node> q = new LinkedList<Node>();// 队列存储
         Node start = new Node(0, 0, 0);
         q.offer(start);

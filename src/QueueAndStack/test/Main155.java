@@ -64,14 +64,14 @@ class MinStack {
     }
 
     public int top() {
-        if(!data.isEmpty()){
+        if (!data.isEmpty()) {
             return data.peek();
         }
         throw new RuntimeException("栈中元素为空，此操作非法");
     }
 
     public int getMin() {
-        if(!helper.isEmpty()){
+        if (!helper.isEmpty()) {
             return helper.peek();
         }
         throw new RuntimeException("栈中元素为空，此操作非法");

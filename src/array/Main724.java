@@ -4,15 +4,15 @@ package array;
  * @author lijian
  * @description 寻找数组中心索引
  * @date 2019/12/30
- *
+ * <p>
  * 给定一个整数类型的数组 nums，请编写一个能够返回数组“中心索引”的方法。
- *
+ * <p>
  * 我们是这样定义数组中心索引的：数组中心索引的左侧所有元素相加的和等于右侧所有元素相加的和。
- *
+ * <p>
  * 如果数组不存在中心索引，那么我们应该返回 -1。如果数组有多个中心索引，那么我们应该返回最靠近左边的那一个。
- *
+ * <p>
  * 示例 1:
- *
+ * <p>
  * 输入:
  * nums = [1, 7, 3, 6, 5, 6]
  * 输出: 3
@@ -23,19 +23,19 @@ package array;
 public class Main724 {
     public static void main(String[] args) {
         Solution724 solution724 = new Solution724();
-        int [] arr = {1,7,3,6,5,6};
-        int i =solution724.pivotIndex(arr);
+        int[] arr = {1, 7, 3, 6, 5, 6};
+        int i = solution724.pivotIndex(arr);
         System.out.println(i);
     }
 
 }
 
-class Solution724{
+class Solution724 {
 
     int sum = 0;
 
     public int pivotIndex(int[] nums) {
-        if (nums.length==0){
+        if (nums.length == 0) {
             return -1;
         }
         //判断不了边界情况
@@ -51,15 +51,15 @@ class Solution724{
 //            sum+=nums[i];
 //        }
         for (int num : nums) {
-            sum+=num;
+            sum += num;
         }
-        int sum1=0;
+        int sum1 = 0;
         //
         for (int i = 0; i < nums.length; i++) {
-            if (sum1*2+nums[i]==sum){
+            if (sum1 * 2 + nums[i] == sum) {
                 return i;
             }
-            sum1+=nums[i];
+            sum1 += nums[i];
         }
 
         return -1;

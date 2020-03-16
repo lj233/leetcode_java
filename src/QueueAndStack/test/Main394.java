@@ -23,7 +23,7 @@ import java.util.LinkedList;
 public class Main394 {
     public static void main(String[] args) {
         Solution394 solution394 = new Solution394();
-        String a =solution394.decodeString("3[a]2[bc]");
+        String a = solution394.decodeString("3[a]2[bc]");
         System.out.println(a);
     }
 }
@@ -62,20 +62,18 @@ class Solution394 {
         int multi = 0;
         LinkedList<Integer> stack_multi = new LinkedList<>(); //存储数字
         LinkedList<String> stack_res = new LinkedList<>();      //存储字母
-        for(Character c : s.toCharArray()) {
-            if(c == '[') {
+        for (Character c : s.toCharArray()) {
+            if (c == '[') {
                 stack_multi.addLast(multi);
                 stack_res.addLast(res.toString());
                 multi = 0;
                 res = new StringBuilder();
-            }
-            else if(c == ']') {
+            } else if (c == ']') {
                 StringBuilder tmp = new StringBuilder();
                 int cur_multi = stack_multi.removeLast();
-                for(int i = 0; i < cur_multi; i++) tmp.append(res);
+                for (int i = 0; i < cur_multi; i++) tmp.append(res);
                 res = new StringBuilder(stack_res.removeLast() + tmp);
-            }
-            else if(c >= '0' && c <= '9') multi = multi * 10 + Integer.parseInt(c + ""); // *10 是倍数累加
+            } else if (c >= '0' && c <= '9') multi = multi * 10 + Integer.parseInt(c + ""); // *10 是倍数累加
             else res.append(c);
         }
         return res.toString();

@@ -27,9 +27,9 @@ class Solution66 {
 
 
     public int[] plusOne(int[] digits) {
-        int length = digits.length-1;
-        if (digits[length]==9)
-        return process9(digits,length);
+        int length = digits.length - 1;
+        if (digits[length] == 9)
+            return process9(digits, length);
         else {
             digits[length] += 1;
             return digits;
@@ -39,17 +39,17 @@ class Solution66 {
     private int[] process9(int[] digits, int i) {
         digits[i] = 0;
         if (i == 0) {
-            int[] bak = new int[digits.length+1];
-            bak[0]=1;
-            bak[1]=0;
+            int[] bak = new int[digits.length + 1];
+            bak[0] = 1;
+            bak[1] = 0;
             for (int i1 = bak.length - 1; i1 > 1; i1--) {
-                bak[i1]=digits[i1-1];
+                bak[i1] = digits[i1 - 1];
             }
             return bak;
         }
-        if (digits[i-1]==9){
-            return process9(digits,i-1);
-        }else digits[i-1]+=1;
+        if (digits[i - 1] == 9) {
+            return process9(digits, i - 1);
+        } else digits[i - 1] += 1;
         return digits;
     }
 

@@ -43,12 +43,12 @@ class MyStack {
      * Push element x onto stack.
      */
     public void push(int x) {
-        if (!queue.isEmpty()){
+        if (!queue.isEmpty()) {
             while (!queue.isEmpty())
-            temp.add(queue.poll());
+                temp.add(queue.poll());
         }
         queue.add(x);
-        while (!temp.isEmpty()){
+        while (!temp.isEmpty()) {
             queue.add(temp.poll());
         }
     }
@@ -57,7 +57,7 @@ class MyStack {
      * Removes the element on top of the stack and returns that element.
      */
     public int pop() {
-        font = (int)queue.peek();
+        font = (int) queue.peek();
         queue.poll();
         return font;
     }
@@ -66,7 +66,7 @@ class MyStack {
      * Get the top element.
      */
     public int top() {
-        return (int)queue.peek();
+        return (int) queue.peek();
     }
 
     /**

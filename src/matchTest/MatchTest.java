@@ -18,7 +18,7 @@ public class MatchTest {
 
         String str = "60<=m1<70";
 
-        str.replace("<","");
+        str.replace("<", "");
         System.out.println(str.contains("<"));
 //        String pattern = "\\d";
 //
@@ -27,15 +27,15 @@ public class MatchTest {
 //        System.out.println(m.matches());
     }
 
-    public static boolean matches(String bean){
+    public static boolean matches(String bean) {
         Pattern pattern = Pattern.compile("\\d{2}");
         Matcher matcher = pattern.matcher(bean);
         System.out.println(bean);
-         if(matcher.find()){
-             Integer min = Integer.valueOf(bean.substring(0, bean.indexOf("<")));
-             Integer max = Integer.valueOf(bean.substring(bean.lastIndexOf("<") + 1));
-                return true;
-         }
-         return false;
+        if (matcher.find()) {
+            Integer min = Integer.valueOf(bean.substring(0, bean.indexOf("<")));
+            Integer max = Integer.valueOf(bean.substring(bean.lastIndexOf("<") + 1));
+            return true;
+        }
+        return false;
     }
 }

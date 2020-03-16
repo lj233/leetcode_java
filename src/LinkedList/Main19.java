@@ -35,7 +35,7 @@ class Solution19 {
         ListNode first = dummy;
         ListNode second = dummy;
         //快指针先走出n个
-        for (int i = 0; i <= n ; i++) {
+        for (int i = 0; i <= n; i++) {
             first = first.next;
         }
         // 慢指针停的位置就是删除的前一个

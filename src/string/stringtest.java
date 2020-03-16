@@ -12,9 +12,9 @@ public class stringtest {
         String s1 = "Hello World";
         System.out.println("s1 is \"" + s1 + "\"");
         String s2 = s1;
-        System.out.println("s2 is another reference to s1."+s2);
+        System.out.println("s2 is another reference to s1." + s2);
         String s3 = new String(s1);
-        System.out.println("s3 is a copy of s1."+s3);
+        System.out.println("s3 is a copy of s1." + s3);
         // compare using '=='
         System.out.println("Compared by '==':");
         // true since string is immutable and s1 is binded to "Hello World"
@@ -37,11 +37,11 @@ public class stringtest {
         String s = "Hello World";
         char[] str = s.toCharArray();
         str[5] = ',';
-        System.out.println("s.toCharArray."+str);
+        System.out.println("s.toCharArray." + str);
 
     }
 
-    public void test(){
+    public void test() {
 
     }
 }

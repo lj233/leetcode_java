@@ -7,6 +7,9 @@ package LinkedList;
  */
 public class DoublyListNode {
     int val;
-    ListNode next,prev;
-    DoublyListNode(int x) { val = x; }
+    ListNode next, prev;
+
+    DoublyListNode(int x) {
+        val = x;
+    }
 }

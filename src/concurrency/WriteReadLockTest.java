@@ -40,7 +40,8 @@ public class WriteReadLockTest {
         t2.start();
     }
 }
- class MyTask {
+
+class MyTask {
 
     private ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 

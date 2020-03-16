@@ -22,7 +22,7 @@ public class MyCallable implements Callable {
     @Override
     public Object call() throws Exception {
         int i = 3;
-        while (i>0){
+        while (i > 0) {
             System.out.println(" Callable while");
             i--;
         }

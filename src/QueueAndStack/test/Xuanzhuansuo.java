@@ -22,8 +22,8 @@ import java.util.Set;
  */
 public class Xuanzhuansuo {
     public static void main(String[] args) {
-        String[] dead = {"0201","0201","0102","1212","2002"};
-        System.out.println( new XSolution().openLock(dead,"0202"));
+        String[] dead = {"0201", "0201", "0102", "1212", "2002"};
+        System.out.println(new XSolution().openLock(dead, "0202"));
     }
 }
 

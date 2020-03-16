@@ -49,7 +49,7 @@ class Solution133 {
     }
 
 
-    public Node DFS(Node node){
+    public Node DFS(Node node) {
         if (node == null) {
             return node;
         }
@@ -75,13 +75,15 @@ class Solution133 {
     }
 
 }
+
 class Node {
     public int val;
     public List<Node> neighbors;
 
-    public Node() {}
+    public Node() {
+    }
 
-    public Node(int _val,List<Node> _neighbors) {
+    public Node(int _val, List<Node> _neighbors) {
         val = _val;
         neighbors = _neighbors;
     }

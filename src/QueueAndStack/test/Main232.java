@@ -26,15 +26,20 @@ public class Main232 {
 class MyQueue {
 
     Stack stack;
-    Stack temp =new Stack();//利用两个队列实现栈，主要是保证push的顺序
-    /** Initialize your data structure here. */
+    Stack temp = new Stack();//利用两个队列实现栈，主要是保证push的顺序
+
+    /**
+     * Initialize your data structure here.
+     */
     public MyQueue() {
         stack = new Stack();
     }
 
-    /** Push element x to the back of queue. */
+    /**
+     * Push element x to the back of queue.
+     */
     public void push(int x) {
-        if (!stack.isEmpty()){
+        if (!stack.isEmpty()) {
             while (!stack.isEmpty()) {
                 temp.push(stack.pop());
             }
@@ -45,17 +50,23 @@ class MyQueue {
         }
     }
 
-    /** Removes the element from in front of queue and returns that element. */
+    /**
+     * Removes the element from in front of queue and returns that element.
+     */
     public int pop() {
-        return (int)stack.pop();
+        return (int) stack.pop();
     }
 
-    /** Get the front element. */
+    /**
+     * Get the front element.
+     */
     public int peek() {
-        return (int)stack.peek();
+        return (int) stack.peek();
     }
 
-    /** Returns whether the queue is empty. */
+    /**
+     * Returns whether the queue is empty.
+     */
     public boolean empty() {
         return stack.isEmpty();
     }

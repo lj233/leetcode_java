@@ -56,13 +56,14 @@ class Solution141 {
     public boolean hasCycle2(ListNode head) {
         Set<ListNode> listNodes = new HashSet<>();
         ListNode curr = head;
-        while (curr!=null){
+        while (curr != null) {
             if (listNodes.contains(curr)) return true;
             listNodes.add(curr);
-            curr =curr.next;
+            curr = curr.next;
         }
         return false;
     }
+
     //环形链表2，返回链表开始入环的第一个结点
     public ListNode detectCycle(ListNode head) {
         Set<ListNode> visited = new HashSet<ListNode>();

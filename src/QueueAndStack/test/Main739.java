@@ -12,10 +12,11 @@ public class Main739 {
     public static void main(String[] args) {
         int[] arr = {73, 74, 75, 71, 69, 72, 76, 73};
         Solution739 solution739 = new Solution739();
-        int[] arr2 =solution739.dailyTemperatures(arr);
+        int[] arr2 = solution739.dailyTemperatures(arr);
         System.out.println(1);
     }
 }
+
 class Solution739 {
     public int[] dailyTemperatures(int[] T) {
         //
