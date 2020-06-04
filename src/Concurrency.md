@@ -141,5 +141,19 @@
 
 ## 两个线程共享数据 
             将数据冲向为类，并且对数据的操作封装为Synchronized方法。
-            
-            
+  
+##  ThreadLocal          
+ * 1、Thread中有一个map，就是ThreadLocalMap
+ *
+ * 2、ThreadLocalMap的key是ThreadLocal，值是我们自己设定的   
+ 
+ ## CountDownLatch和CyclicBarrier区别：
+     1.countDownLatch是一个计数器，线程完成一个记录一个，计数器递减，只能只用一次
+     
+     2.CyclicBarrier的计数器更像一个阀门，需要所有线程都到达，然后继续执行，计数器递增，提供reset功能，可以多次使用
+     
+     3.CountDownLatch 简单的说就是一个线程等待，直到他所等待的其他线程都执行完成并且调用 countDown()方法发出通知后，当前线程才可以继续执行。
+    
+     4.cyclicBarrier 是所有线程都进行等待，直到所有线程都准备好进入 await()方法之后，所有线程同时开始执行！
+    
+     5.CountDownLatch 的计数器只能使用一次。而 CyclicBarrier 的计数器可以使用 reset() 方法重置。所以 CyclicBarrier 能处理更为复杂的业务场景，比如如果计算发生错误，可以重置计数器，并让线程们重新执行一次。

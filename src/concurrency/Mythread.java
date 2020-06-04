@@ -14,5 +14,7 @@ public class Mythread extends Thread {
     @Override
     public void run() {
         System.out.println(" I'm runing");
+        //使用this直接获取当前线程
+        System.out.println(this.getName());
     }
 }
