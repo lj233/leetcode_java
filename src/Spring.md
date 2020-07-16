@@ -9,7 +9,19 @@
 + 面向切面 
 + 容器 
 + 框架集合 
+## Spring 模块
 
+Core
+
+AOP
+
+ORM
+
+DAO
+
+Web
+
+Spring EE
 ## Spring Ioc原理
 概念： 通过一个配置文件描述 Bean 及 Bean 之间的依赖关系，利用 Java 语言的反射功能实例化 Bean 并建立 Bean 之间的依赖关系。 Spring 的 IoC 容器在完成这些底层工作的基础上，还提供 了 Bean 实例缓存、生命周期管理、 Bean 实例代理、事件发布、资源装载等高级服务
 
@@ -104,7 +116,7 @@ public class SpringAction {
 factory-method="getStaticFactoryDaoImpl">
 </bean>
 ```
-  +实例工厂
+  + 实例工厂
     需要先在xml中new对象
  ```
 public class DaoFactory { //实例工厂
@@ -224,3 +236,24 @@ sqlsession 是可以共享的。
     Netty 是一个高性能、异步事件驱动的 NIO 框架，基于 JAVA NIO 提供的 API 实现。它提供了对
     TCP、UDP 和文件传输的支持，作为一个异步 NIO 框架，Netty 的所有 IO 操作都是异步非阻塞
     的，通过 Future-Listener 机制，用户可以方便的主动获取或者通过通知机制获得 IO 操作结果。
+
+# 拦截器 监听器 过滤器
+
++ Spring *MVC* 中的拦截器（Interceptor）类似于Servlet中的过滤器（Filter）通过实现HandlerInterceptor/WebRequestInterceptor接口
+
+    > 重写其中的handle等方法
+    
++ 监听器 就是application、session、request三个对象创建、销毁或者往其中添加修改删除属性时自动执行代码的功能组件
+
+
+```
+①ServletContextListener：对Servlet上下文的创建和销毁进行监听
+③HttpSessionListener：对Session的创建和销毁进行监听。
+⑤ServletRequestListener：对请求对象的初始化和销毁进行监听
+```
+
++ 过滤器 实现Filter 的dochain（）方法，可以多次执行，责任链模式
+
+## bean 的生命周期和注入方式
+
+[bean的生命周期](https://mmbiz.qpic.cn/sz_mmbiz_png/2BGWl1qPxib1Id9lfLbDPG8Qbc5RVwMpMiabGNIxCoHWt6CAHSmGxXDlDfznAJ7T3xHK3dgXdzMGWSgfCeYRIYicw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
