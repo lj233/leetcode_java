@@ -1,6 +1,10 @@
 package basic;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @author lijian
@@ -12,6 +16,9 @@ public class TestAnything {
         TestAnything testAnything = new TestAnything();
         testAnything.testFloat();
     }
+
+
+
 
 
     public void testFloat(){

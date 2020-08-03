@@ -9,6 +9,62 @@
 + 面向切面 
 + 容器 
 + 框架集合 
+
+## Spring Bean 工厂
+
+Ioc控制反转的思想 和 Ioc容器（Map（key，value））  
+IOC 初始化 ： 根据XML读取resource-》BeanDefinition解析-》注册BeanFactory
+
+1 、 在BeanDifintion中设置属性 beanclass、parentName、Scope、lazyinit等
+2. Bean工厂后置处理器 BeanFactoryPostProcessor
+3、 创建Bean容器 实例化、循环依赖、AOP、依赖注入 
+
+## DI 依赖注入 
+
+依赖注入会将所依赖的关系自动交给目标对象，而不是让对象自己去获取依赖。  
+
+eg；构造器注入，成员变量将被指定为构造器传入的参数类型，而不是自己new。
+
+## 获取bean的方式 
+
+1. @Bean注解
+2. FactoryBean-》getObject返回的类型
+3. 利用register手动注册 
+
+
+BeanFactory - 大工厂 -包含所有的SpringBean
+
+FactoryBean - 小工厂 -只能返回单种类型
+
+获取单个Mapper 
+```
+    //FactoryBean中重写的方法
+    public Object getObject(){
+        //jdk动态代理
+        UserMapper userMapper = （UserMapper）Proxy.newProxyInstance(FactoryBean.class.getClassLoader(), new Class[]{UserMapper.class}, new InvocationHandler() {
+            //proxy 为代理对象 ， method为userMapper的方法
+            @Override
+            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                if (Object.class.equals(method.getDeclaringClass())){
+                    return method.invoke(args);
+                }
+                return null;
+            }
+        });
+        return userMapper;
+    }
+```
+获取多个Mapper
+在FactoryBean中增加  
+private class Mapper；  
+利用@Import注解把注册的Bean导入
+
+
+
+## Spring 循环依赖 
+
+![循环依赖和解决方案](https://www.jianshu.com/p/b65c57f4d45d)
+
 ## Spring 模块
 
 Core
@@ -23,7 +79,8 @@ Web
 
 Spring EE
 ## Spring Ioc原理
-概念： 通过一个配置文件描述 Bean 及 Bean 之间的依赖关系，利用 Java 语言的反射功能实例化 Bean 并建立 Bean 之间的依赖关系。 Spring 的 IoC 容器在完成这些底层工作的基础上，还提供 了 Bean 实例缓存、生命周期管理、 Bean 实例代理、事件发布、资源装载等高级服务
+概念： 通过一个配置文件描述 Bean 及 Bean 之间的依赖关系，利用 Java 语言的反射功能实例化 Bean 并建立 Bean 之间的依赖关系。   
+Spring 的 IoC 容器在完成这些底层工作的基础上，还提供 了 Bean 实例缓存、生命周期管理、 Bean 实例代理、事件发布、资源装载等高级服务
 
 
 如何注入bean：
@@ -54,19 +111,30 @@ WebApplication 体系架构
 ## spring bean 的作用域
 
     分别为 singleton（单例）、
-    prototype 原型模式每次使用时创
+    prototype 原型模式每次使用时创建
     request、一次http请求一个bean
     session 不同的实例之间不共享属性，且实例仅在自己的 session 请求
             内有效，请求结束，则实例将被销毁
-    global session
+    global session 全局的
     
+## Spring中的单例bean的线程安全问题了解吗？
+
+大部分时候我们并没有在系统中使用多线程，所以很少有人会关注这个问题。单例bean存在线程问题，  
+主要是因为当多个线程操作同一个对象的时候，对这个对象的非静态成员变量的写操作会存在线程安全问题。
+
+有两种常见的解决方案：
+
+1.在bean对象中尽量避免定义可变的成员变量（不太现实）。
+
+2.在类中定义一个ThreadLocal成员变量，将需要的可变成员变量保存在ThreadLocal中（推荐的一种方式）。   
     
 ## spring bean 的生命周期
 
    + 实例化
    + 依赖注入 、setName等
-   + 执行自定义接口方法
-   + 使用
+   + 执行自定义接口方法  如果实现了其他*Aware接口，就调用相应的方法。
+   + 如果有和加载这个Bean的Spring容器相关的BeanPostProcessor对象，执行postProcessBeforeInitialization()方法。 
+   + 如果Bean实现了InitializingBean接口，执行afeterPropertiesSet()方法。
    + 调用destory方法
    
    
@@ -166,9 +234,20 @@ AOP 核心概念
 
 AOP 两种代理方式
 
-Spring 提供了两种方式来生成代理对象: JDKProxy 和 Cglib，具体使用哪种方式生成由
-AopProxyFactory 根据 AdvisedSupport 对象的配置来决定。默认的策略是如果目标类是接口，
-则使用 JDK 动态代理技术，否则使用 Cglib 来生成代理
+Spring 提供了两种方式来生成代理对象: JDKProxy 和 Cglib，具体使用哪种方式生成由  
+AopProxyFactory 根据 AdvisedSupport 对象的配置来决定。  
+默认的策略是如果目标类是接口，  则使用 JDK 动态代理技术，  
+否则使用 Cglib 来生成代理，回生成一个被代理对象的子类
+
+    Spring事务基于Spring AOP，Spring AOP底层用的动态代理，动态代理有两种方式：
+    
+    基于接口代理(JDK代理)
+    
+    基于接口代理，凡是类的方法非public修饰，或者用了static关键字修饰，那这些方法都不能被Spring AOP增强
+    
+    基于CGLib代理(子类代理)
+    
+    基于子类代理，凡是类的方法使用了private、static、final修饰，那这些方法都不能被Spring AOP增强
 
 实现方式
 
@@ -194,11 +273,84 @@ public class TransactionDemo {
  }
 }
 ```
+
+
+
+## @Component和@Bean的区别是什么
+
+1.作用对象不同。@Component注解作用于类，而@Bean注解作用于方法。
+
+2.@Component注解通常是通过类路径扫描来自动侦测以及自动装配到Spring容器中  
+（我们可以使用@ComponentScan注解定义要扫描的路径）。@Bean注解通常是在标有该注解的方法中定义产生这个bean，告诉Spring这是某个类的实例，当我需要用它的时候还给我。
+
+3.@Bean注解比@Component注解的自定义性更强，而且很多地方只能通过@Bean注解来注册bean。  
+比如当引用第三方库的类需要装配到Spring容器的时候，就只能通过@Bean注解来实现。
+
+
+
+## Spring事务中的隔离级别有哪几种？
+
+在TransactionDefinition接口中定义了五个表示隔离级别的常量：
+
+ISOLATION_DEFAULT：使用后端数据库默认的隔离级别，Mysql默认采用的REPEATABLE_READ隔离级别；Oracle默认采用的READ_COMMITTED隔离级别。
+
+ISOLATION_READ_UNCOMMITTED：最低的隔离级别，允许读取尚未提交的数据变更，可能会导致脏读、幻读或不可重复读。
+
+ISOLATION_READ_COMMITTED：允许读取并发事务已经提交的数据，可以阻止脏读，但是幻读或不可重复读仍有可能发生
+
+ISOLATION_REPEATABLE_READ：对同一字段的多次读取结果都是一致的，除非数据是被本身事务自己所修改，可以阻止脏读和不可重复读，但幻读仍有可能发生。
+
+ISOLATION_SERIALIZABLE：最高的隔离级别，完全服从ACID的隔离级别。所有的事务依次逐个执行，这样事务之间就完全不可能产生干扰，  
+也就是说，该级别可以防止脏读、不可重复读以及幻读。但是这将严重影响程序的性能。通常情况下也不会用到该级别。
+
+
+## Spring事务中有哪几种事务传播行为？
+
+
+
+在TransactionDefinition接口中定义了七个表示事务传播行为的常量。
+
+支持当前事务的情况：
+
+PROPAGATION_REQUIRED：如果当前存在事务，则加入该事务；如果当前没有事务，则创建一个新的事务。  
+> 外围没开启，两个事务会各自执行自己的事务，，
+>>外围方法抛异常不会影响内部的事务
+>> 回滚也只是影响自己的事务
+>外围开启，则只要方法体内抛出异常，都要回滚，即使事务异常被catch捕捉
+
+PROPAGATION_SUPPORTS： 如果当前存在事务，则加入该事务；如果当前没有事务，则以非事务的方式继续运行。
+
+PROPAGATION_MANDATORY： 如果当前存在事务，则加入该事务；如果当前没有事务，则抛出异常。（mandatory：强制性）。
+
+不支持当前事务的情况：
+
+PROPAGATION_REQUIRES_NEW： 创建一个新的事务，如果当前存在事务，则把当前事务挂起。
+> 外围没开启事务，内部事务独立运行，不会受方法体内异常影响
+>> 内部事务抛出异常，自己回滚
+>开启事务 
+>> 内部方法如果是同一个级别，会受到回滚影响
+>> 内部方法会自己回滚，如果抛出异常会影响外围方法
+>> 内部事务方法抛出异常如果被catch捕捉，则不会回滚
+
+PROPAGATION_NOT_SUPPORTED： 以非事务方式运行，如果当前存在事务，则把当前事务挂起。
+
+PROPAGATION_NEVER： 以非事务方式运行，如果当前存在事务，则抛出异常。
+
+其他情况：
+
+PROPAGATION_NESTED： 如果当前存在事务，则创建一个事务作为当前事务的嵌套事务来运行；如果当前没有事务，则该取值等价于PROPAGATION_REQUIRED。
+> 外围事务回滚，子事务也要回滚
+> 子事务如果被捕捉，可以单独回滚
+
+[事务传播](https://segmentfault.com/a/1190000013341344)
+
 ## spring mvc
+Spring MVC下我们一般把后端项目分为Service层（处理业务）、Dao层（数据库操作）、Entity层（实体类）、Controller层（控制层，返回数据给前台页面）。  
 
 mvc流程
 
 ![mvc流程](img/spring_mvc.png)
+
 
 ## SPRING BOOT 原理
 
@@ -206,8 +358,8 @@ mvc流程
 2. 嵌入的 Tomcat，无需部署 WAR 文件
 3. 简化 Maven 配置
 4. 自动配置 Spring
-5. ᨀ供生产就绪型功能，如指标，健康检查和外部配置
-6. 绝对没有代码生成和对 XML 没有要求配置 [1]
+5. 供生产就绪型功能，如指标，健康检查和外部配置
+6. 绝对没有代码生成和对 XML 没有要求配置 
 
 
 ## Mybatis 缓存
@@ -216,6 +368,34 @@ Mybatis 中有一级缓存和二级缓存，默认情况下一级缓存是开启
 后的查询不会从数据库查询，而是直接从缓存中获取，一级缓存最多缓存 1024 条 SQL。二级缓存
 是指可以跨 SqlSession 的缓存。是 mapper 级别的缓存，对于 mapper 级别的缓存不同的
 sqlsession 是可以共享的。
+
+### 一级缓存的生命周期有多长
+
+MyBatis在开启一个数据库会话时，会 创建一个新的SqlSession对象，SqlSession对象中会有一个新的Executor对象，Executor对象中持有一个新的PerpetualCache对象；  
+当会话结束时，SqlSession对象及其内部的Executor对象还有PerpetualCache对象也一并释放掉。  
+如果SqlSession调用了close()方法，会释放掉一级缓存PerpetualCache对象，一级缓存将不可用；  
+如果SqlSession调用了clearCache()，会清空PerpetualCache对象中的数据，但是该对象仍可使用；  
+SqlSession中执行了任何一个update操作(update()、delete()、insert()) ，都会清空PerpetualCache对象的数据，但是该对象可以继续使用；
+
+### SqlSession 一级缓存的工作流程：
+
+对于某个查询，根据statementId,params,rowBounds来构建一个key值，根据这个key值去缓存Cache中取出对应的key值存储的缓存结果​  
+判断从Cache中根据特定的key值取的数据数据是否为空，即是否命中；​  
+如果命中，则直接将缓存结果返回；​  
+如果没命中：  
+    &emsp; 去数据库中查询数据，得到查询结果；  
+    &emsp; 将key和查询到的结果分别作为key,value对存储到Cache中；  
+    &emsp;  将查询结果返回；
+
+### 二级缓存：
+二级缓存是用来解决一级缓存不能跨会话共享的问题的，  
+范围是namespace 级别的，可以被多个SqlSession 共享（只要是同一个接口里面的相同方法，都可以共享），  
+生命周期和应用同步。如果你的MyBatis使用了二级缓存，  
+并且你的Mapper和select语句也配置使用了二级缓存，  
+那么在执行select查询的时候，MyBatis会先从二级缓存中取输入，  
+其次才是一级缓存，即MyBatis查询数据的顺序是：  
+二级缓存   —> 一级缓存 —> 数据库。
+
 
 # 微服务
 
@@ -257,3 +437,16 @@ sqlsession 是可以共享的。
 ## bean 的生命周期和注入方式
 
 [bean的生命周期](https://mmbiz.qpic.cn/sz_mmbiz_png/2BGWl1qPxib1Id9lfLbDPG8Qbc5RVwMpMiabGNIxCoHWt6CAHSmGxXDlDfznAJ7T3xHK3dgXdzMGWSgfCeYRIYicw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+
+## Spring Boot自动装配
+
+@SpringBootApplication ->@SpringBootConfiguration 
+                         @EnableAutoConfiguration ->@Import({AutoConfigurationImportSelector.class}) -> META-INF->spring.factories
+                         @ComponentScan
+                         
+
+## @Autowired和@Resource
+
+@Autowired 默认按照Bytype注入
+@Resource  默认按照Byname注入
+

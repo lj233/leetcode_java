@@ -15,31 +15,80 @@
  
 + 并行：
  
- 并行性是指同一时刻内发生两个或多个事件。
- 
- 并行是在不同实体上的多个事件
+         并行性是指同一时刻内发生两个或多个事件。
+         
+         并行是在不同实体上的多个事件
  
 +  并发：
  
- 并发性是指同一时间间隔内发生两个或多个事件。
- 
- 并发是在同一实体上的多个事件、
- 
- 由此可见：并行是针对进程的，并发是针对线程的。
+         并发性是指同一时间间隔内发生两个或多个事件。
+         
+         并发是在同一实体上的多个事件、
+         
+         由此可见：并行是针对进程的，并发是针对线程的。
 
  ---
  ## 线程池 
- * 顶级接口是Executor
+ 
+ * 顶级接口是Executor  
+ 
  * newCachedThreadPool 创建一个可根据需要创建新线程的线程池 终止60秒内未使用的线程
  * newFixedThreadPool  创建一个固定线程数的线程池  无界队列，失败会有新线程代替执行
  * newScheduledThreadPool 安排在给定延迟后执行任务或者定期执行
  * newSingleThreadPool  返回一个单例线程，会在失败或关闭后重新启动一个线程执行下去
+ 
+ # 线程池 ThreadPoolExecutor源码介绍
+ 
+ 线程数量要点：
+ 
+     如果运行线程的数量少于核心线程数量，则创建新的线程处理请求
+     
+     如果运行线程的数量大于核心线程数量，小于最大线程数量，则当队列满的时候才创建新的线程
+     
+     如果核心线程数量等于最大线程数量，那么将创建固定大小的连接池
+     
+     如果设置了最大线程数量为无穷，那么允许线程池适合任意的并发数量
+ 
+ 线程空闲时间要点：
+ 
+     当前线程数大于核心线程数，如果空闲时间已经超过了，那该线程会销毁。
+ 
+ 排队策略要点：
+ 
+     同步移交：不会放到队列中，而是等待线程执行它。如果当前线程没有执行，很可能会新开一个线程执行。
+     
+     无界限策略：如果核心线程都在工作，该线程会放到队列中。所以线程数不会超过核心线程数
+     
+     有界限策略：可以避免资源耗尽，但是一定程度上减低了吞吐量
+ 
+ 当线程关闭或者线程数量满了和队列饱和了，就有拒绝任务的情况了：
+ 
+ 拒绝任务策略：
+ 
+     直接抛出异常
+     
+     使用调用者的线程来处理
+     
+     直接丢掉这个任务
+     
+     丢掉最老的任务
+     
+ ## execute(runnable) 方法 
+     在源码上分三步走
+ ## shutdown（） 方法
+     调用shutdown()后，线程池状态立刻变为SHUTDOWN，而调用shutdownNow()，线程池状态立刻变为STOP。
+     
+     shutdown()等待任务执行完才中断线程，而shutdownNow()不等任务执行完就中断了线程。
+
  ## 线程生命状态
 
  * 线程的生命状态 new Runnable running Blocked dead
  ## 阻塞
 
- * 阻塞分为3种 等待队列阻塞 Thread.wait() 同步阻塞 running的线程获取同步锁失败——》锁池 lock pool中  其他阻塞  sleep（） join方法
+ * 阻塞分为3种   
+ > 等待队列阻塞 Thread.wait()   
+ 同步阻塞 running的线程获取同步锁失败——》锁池 lock pool中  
+ 其他阻塞  sleep（） join方法
  
  ## 终止线程的方式
   * 使用 volatile退出标志 ，保证同一时刻只能有一个线程做修改
@@ -160,7 +209,7 @@
         一步提高性能。
  
 ## 分段锁  ConcurrentHashMap 
-
+锁住的是segment，最大支持16个线程并发
 
 ## java中的阻塞队列
 
@@ -189,7 +238,7 @@
  
  ## CountDownLatch和CyclicBarrier区别：
      1.countDownLatch是一个计数器，线程完成一个记录一个，计数器递减，只能只用一次 ’
-     countDown()计数-1.awit（）等待区
+     countDown()计数-1.awit（）等待区  
      Sync extends AbstractQueuedSynchronizer 静态内部类Sync继承了AQS，维护了state状态，
      tryAcquireShared加锁、tryReleaseShared释放锁
      
@@ -202,6 +251,13 @@
      5.CountDownLatch 的计数器只能使用一次。而 CyclicBarrier 的计数器可以使用 reset() 方法重置。所以 CyclicBarrier 能处理更为复杂的业务场景，比如如果计算发生错误，可以重置计数器，并让线程们重新执行一次。
 
 ## Semaphore 
+
+    实现了AQS中的 共享锁 ，Fair->Sync->AQS 重写了加锁、解锁方法
+
+    /**
+     * 在 semaphore.acquire() 和 semaphore.release()之间的代码，同一时刻只允许制定个数的线程进入，
+     * 因为semaphore的构造方法是2，则同一时刻只允许2个线程进入，其他线程等待。
+     * */
 
     是 synchronized 的加强版，作用是控制线程的并发数量。
     abstract static class Sync extends AbstractQueuedSynchronizer Sync实现加锁和释放锁
@@ -239,6 +295,14 @@
     从原理上概述就是：Atomic包的类的实现绝大调用Unsafe的方法，
     而Unsafe底层实际上是调用C代码，C代码调用汇编，最后生成出一条CPU指令cmpxchg，完成操作。
     这也就为啥CAS是原子性的，因为它是一条CPU指令，不会被打断
+  
+### cas的ABA 问题 
+
+AtomicStampedReference 维护了一个stamp时间戳
+
+在这里我们会发现Pair里面只是保存了值reference和时间戳stamp。
+
+在compareAndSet方法中最后还调用了casPair方法，从名字就可以看到，主要是使用CAS机制更新新的值reference和时间戳stamp。  
     
 # 线程中断
 
@@ -251,8 +315,9 @@ interrupt线程中断还有另外两个方法(检查该线程是否被中断)：
 实例方法isInterrupted()-->不会清除中断标志位
 
 # AQS 
- + JUC 包下的 AbstractQueuedLongSynchronizer
- + 维护了一个Node节点先进先出队列和 cas方法更改 state的值
+ + JUC 包下的 AbstractQueuedSynchronizer
+ + 维护了一个Node(CLH队列,先进先出)节点先进先出队列和 ，加锁的时候，要么获取到锁，要么把等待的线程加入到等待队列
+ + 维护了 state  cas方法更改 state的值 0为无锁，1为有锁，共享锁可大于一
  + AQS其实就是一个可以给我们实现锁的框架
  
  + 内部实现的关键是：先进先出的队列、state状态
@@ -261,11 +326,13 @@ interrupt线程中断还有另外两个方法(检查该线程是否被中断)：
  
  + 拥有两种线程模式
  
-    独占模式
+    独占模式  需要子类实现 tryAcquire(int) 和 tryRelease(int)    ReentrantLock
  
-    共享模式
+    共享模式  tryAcquireShared(int)  和 tryReleaseShared(int)   CountDownLatch和Semaphore
  
  + 在LOCK包中的相关锁(常用的有ReentrantLock、 ReadWriteLock)都是基于AQS来构建
+ 
+ ReentrantLock中的子类Sync实现了AQS，又在Fair和NonFair中重写了tryAcquire方法。   
  
  + 一般我们叫AQS为同步器
  
@@ -273,59 +340,21 @@ interrupt线程中断还有另外两个方法(检查该线程是否被中断)：
     
     过程：获取独占锁 acquire(int)尝试获取资源，如果获取失败，将线程插入等待队列。
     插入等待队列后，acquire(int)并没有放弃获取资源，
+        // 子类必须重写此方法，否则会抛出异常
+        protected boolean tryAcquire(long arg) {
+            throw new UnsupportedOperationException();
+        }
     而是根据前置节点状态状态判断是否应该继续获取资源，
     如果前置节点是头结点，继续尝试获取资源，
     如果前置节点是SIGNAL状态，就中断当前线程，
     否则继续尝试获取资源。直到当前线程被park()或者获取到资源，acquire(int)结束
     
     
-    过程:释放独占锁，首先调用子类的tryRelease()方法释放锁,然后唤醒后继节点,
+    过程:释放独占锁，首先调用子类的tryRelease(如果子类没有重写，则直接抛出异常)方法释放锁,然后唤醒后继节点,
     在唤醒的过程中,需要判断后继节点是否满足情况,
     如果后继节点不为且不是作废状态,则唤醒这个后继节点,
     否则从tail节点向前寻找合适的节点,如果找到,则唤醒.
     
-# 线程池 ThreadPoolExecutor源码介绍
-
-线程数量要点：
-
-    如果运行线程的数量少于核心线程数量，则创建新的线程处理请求
-    
-    如果运行线程的数量大于核心线程数量，小于最大线程数量，则当队列满的时候才创建新的线程
-    
-    如果核心线程数量等于最大线程数量，那么将创建固定大小的连接池
-    
-    如果设置了最大线程数量为无穷，那么允许线程池适合任意的并发数量
-
-线程空闲时间要点：
-
-    当前线程数大于核心线程数，如果空闲时间已经超过了，那该线程会销毁。
-
-排队策略要点：
-
-    同步移交：不会放到队列中，而是等待线程执行它。如果当前线程没有执行，很可能会新开一个线程执行。
-    
-    无界限策略：如果核心线程都在工作，该线程会放到队列中。所以线程数不会超过核心线程数
-    
-    有界限策略：可以避免资源耗尽，但是一定程度上减低了吞吐量
-
-当线程关闭或者线程数量满了和队列饱和了，就有拒绝任务的情况了：
-
-拒绝任务策略：
-
-    直接抛出异常
-    
-    使用调用者的线程来处理
-    
-    直接丢掉这个任务
-    
-    丢掉最老的任务
-    
-## execute(runnable) 方法 
-    在源码上分三步走
-## shutdown（） 方法
-    调用shutdown()后，线程池状态立刻变为SHUTDOWN，而调用shutdownNow()，线程池状态立刻变为STOP。
-    
-    shutdown()等待任务执行完才中断线程，而shutdownNow()不等任务执行完就中断了线程。
     
 ## 死锁
     当前线程拥有其他线程需要的资源
@@ -333,7 +362,7 @@ interrupt线程中断还有另外两个方法(检查该线程是否被中断)：
     当前线程等待其他线程已拥有的资源
     
     都不放弃自己拥有的资源
-+ 是一种可能情况 同时永久等待，造成思索
++ 是一种可能情况 同时永久等待，造成死锁
 + 如果所有程序以固定的顺序获取锁，就可以避免死锁问题
 [线程死锁的情况](https://mp.weixin.qq.com/s?__biz=MzI4Njg5MDA5NA==&mid=2247484218&idx=1&sn=5e5d7859627ed2c30ee517cb64e0a930&chksm=ebd7423bdca0cb2d55528781e9d3d12cfb94bc566946069293d1fad3c788a7e617879ba66b9e&scene=21###wechat_redirect)
 
