@@ -394,3 +394,10 @@ select * from information_schema.INNODB_TRX;
 （3）DCL（数据控制语言）：grant select any table to scott/revoke select any table from scott
 
 （4）TCL（事务控制语言）：commit，rollback，savepoint to 回滚点
+
+
+DATETIME	 8 bytes	 YYYY-MM-DD HH:MM:SS
+TIMESTAMP	 4 bytes	 YYYY-MM-DD HH:MM:SS	时间戳
+DATE	     4 bytes     YYYY-MM-DD	            1000-01-01
+TIME	     3 bytes     HH:MM:SS
+YEAR	     1 bytes     YYYY

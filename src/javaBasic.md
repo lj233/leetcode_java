@@ -358,7 +358,7 @@ Java 中的泛型基本上都是在编译器这个层次来实现的。在生成
  
  # JAVA 集合 Collection
  
- + List ArrayList LinkedList   CopyOnWriteArrayList(线程安全) volatile array[]和ReentrantLock锁
+ + List ArrayList LinkedList   CopyOnWriteArrayList(线程安全) volatile array[]和ReentrantLock锁，遍历原数组，操作新数组，保证了最终一致性
  + Set HashSet TreeSet LinkedHashSet
  + Map HashMap、LinkedHashMap、TreeMap、ConcurrentHashMap
  
@@ -368,3 +368,6 @@ Java 中的泛型基本上都是在编译器这个层次来实现的。在生成
   修改加锁、读不加锁、迭代器cowIterator访问的是原数组
   即只能保证数据一致性、不能保证数据实时一致性
   
+## 测试 
+
+  单元测试统一用 JUnit 和 EasyMock，集成测试用 TestNG，数据库测试用 DBUnit。
