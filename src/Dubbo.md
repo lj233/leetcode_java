@@ -16,6 +16,7 @@ AbstractLoadBalance
                                 小于零的invoker执行
 
                     -> ConsistentHash 一致性哈希算法  相同参数的请求总是发到同一提供者（只对第一个参数进行hash，160个虚拟节点）。
+                            可以通过nginx计算ip的hashcode，从而代理到一台服务器
                     
                     -> LeastActive  最小活跃数 内部维护一个active，调用+1，完成减1，活跃的最小最快
                     
