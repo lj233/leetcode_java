@@ -14,6 +14,10 @@ java -XX:PrintFlagsFinal 查看最后的 、调优后的参数
 
 -XX:+PrintGC  打印日志
 
+-xmn512M 设置年轻代大小
+
+-XX:PermSize=64M -XX:MaxPermSize=128M 设置非堆内存的大小
+
 
 jps  列出 java进程
 

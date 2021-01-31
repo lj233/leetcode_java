@@ -277,5 +277,16 @@ public class Array2 {
         return true;
     }
 
+    /*
+    买卖股票的最佳时间
+     */
+    public int maxProfit(int[] prices) {
+        int flag=0,low=0;
+
+        for (int i = 0; i < prices.length; i++) {
+
+        }
+        return 0;
+    }
 
 }

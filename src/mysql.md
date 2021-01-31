@@ -577,6 +577,22 @@ ON DUPLICATE KEY UPDATE 需要有在INSERT语句中有存在主键或者唯一�
 
 SHOW FULL PROCESSLIST 查看连接线程状态
 
+
+## 触发器
+在insert、update、或delete时，执行特定的操作
+
+## 窗口函数
+
+[窗口函数](https://blog.csdn.net/weixin_39010770/article/details/87862407)
+
+
 ## 查询优化器的提示
 
 HIGH_PRIORITY 等
+
+
+## 分库分表
+
+水平切分  一张表的数据存放到3张表中
+垂直切分  拆分各业务表
+读写分离  主节点写数据，从节点备份
