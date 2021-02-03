@@ -22,6 +22,7 @@ AbstractLoadBalance
                     
                     -> RonundRobin  根据权重进轮训  从0开始递增，然后看落在哪个权重上，要根据权重总值取余
                      
+                     其他算法中最好的
                     -> 平滑加权算法  
                           静态权重：  A:B:C=5:1:1  动态权重 ： currentWeight：0:0:0
                           第一次请求  5:1:1           -2:1:1  return A
@@ -110,23 +111,25 @@ RMI协议的Invoker转为Exporter发生在RmiProtocol类的export方法，
      缺点：
        大文件上传时,可能出现问题(不使用Dubbo文件上传)。
        
-[Dubbo](http://dubbo.apache.org/zh-cn/docs/user/references/protocol/dubbo.html)       
-   2、RMI(Remote Method Invocation)协议  采用java序列化
-     优点:
-       JDK自带的能力。可与原生RMI互操作，基于TCP协议。
-     缺点:
-       偶尔连接失败.。  
-     在Spring中，通过代理模式，封装了Bean对象，客户端通过注入可以直接实现service方法
-   3、Hessian协议  采用 json序列化
-     优点:
-       可与原生Hessian互操作，基于HTTP协议。
-     缺点:
-       需hessian.jar支持，http短连接的开销大。
+[Dubbo](http://dubbo.apache.org/zh-cn/docs/user/references/protocol/dubbo.html)  
+     
+   2、RMI(Remote Method Invocation)协议  采用java序列化   
+     优点:  
+       JDK自带的能力。可与原生RMI互操作，基于TCP协议。  
+     缺点:  
+       偶尔连接失败.。    
+     在Spring中，通过代理模式，封装了Bean对象，客户端通过注入可以直接实现service方法 
+      
+   3、Hessian协议  采用 json序列化  
+     优点:  
+       可与原生Hessian互操作，基于HTTP协议。  
+     缺点:  
+       需hessian.jar支持，http短连接的开销大。  
 
 
 ## dubbo的序列化方案
 
-1、RPC默认的序列化方式是使用的阿里修改或的hessian2,，而不是原生态的hessian2（非Java，夸语言的序列化方案） -----------效率2
+1、RPC默认的序列化方式是使用的阿里修改后的hessian2,，而不是原生态的hessian2（非Java，夸语言的序列化方案） -----------效率2
 
 2、Java原生态的序列化方式（性能差） -----------效率4
 
@@ -143,8 +146,8 @@ RMI协议的Invoker转为Exporter发生在RmiProtocol类的export方法，
 建议在 Provider 端配置的 Consumer 端属性有：
 
 timeout：方法调用的超时时间  
-retries：失败重试次数，缺省是 2 [2]   
-loadbalance：负载均衡算法 [3]，缺省是随机 random。还可以配置轮询 roundrobin、最不活跃优先 [4] leastactive 和一致性哈希 consistenthash 等  
+retries：失败重试次数，缺省是 2 
+loadbalance：负载均衡算法 ，缺省是随机 random。还可以配置轮询 roundrobin、最不活跃优先leastactive 和一致性哈希 consistenthash 等  
 actives：消费者端的最大并发调用限制，即当 Consumer 对一个服务的并发调用到上限后，  
 新调用会阻塞直到超时，在方法上配置 dubbo:method 则针对该方法进行并发限制，在接口上配置 dubbo:service，则针对该服务进行并发限制
 
@@ -156,8 +159,11 @@ owner：配置负责人
 ##  要使用Java SPI，需要遵循如下约定：
 
 1、当服务提供者提供了接口的一种具体实现后，在jar包的META-INF/services目录下创建一个以“接口全限定名”为命名的文件，内容为实现类的全限定名；  
+
 2、接口实现类所在的jar包放在主程序的classpath中；  
+
 3、主程序通过java.util.ServiceLoder动态装载实现模块，它通过扫描META-INF/services目录下的配置文件找到实现类的全限定名，把类加载到JVM；  
+
 4、SPI的实现类必须携带一个不带参数的构造方法；  
 
 Dubbo在此基础上提供了IOC和AOP
@@ -165,7 +171,7 @@ Dubbo在此基础上提供了IOC和AOP
 [DUBBO官网介绍](http://dubbo.apache.org/zh-cn/docs/dev/SPI.html)
 
 
-AOP 类都命名为 XxxWrapper，基类都命名为 AbstractXxx。   
+AOP 类都命名为 XxxWrapper，基类都命名为 AbstractXxx。    
 扩展点之间的组合将关系由 AOP 完成，ExtensionLoader 只负载加载扩展点，包括 AOP 扩展。   
 尽量采用 IoC 注入扩展点之间的依赖，不要直接依赖 ExtensionLoader 的工厂方法。  
 尽量采用 AOP 实现扩展点的通用行为，而不要用基类，比如负载均衡之前的 isAvailable 检查，它是独立于负载均衡之外的，不需要检查的是URL参数关闭  

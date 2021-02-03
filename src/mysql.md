@@ -136,7 +136,7 @@ Mysql中不要在事务中使用不同的存储引擎，回滚是MyISAM的变更
 
 ### 页级锁
 页级锁是 MySQL 中锁定粒度介于行级锁和表级锁中间的一种锁。表级锁速度快，但冲突多，行级
-冲突少，但速度慢。所以取了折衷的页级，一次锁定相邻的一组记录。BDB 支持页级锁
+冲突少，但速度慢。所以取了折衷的页级，一次锁定相邻的一组记录。Innodb 支持页级锁
 
 ### Gap Locks(间隙锁)
 间隙锁，它会锁住两个索引之间的区域。比如select * from user where id>1 and id<10 for update，就会在id为(1,10)的索引区间上加Gap Lock。
@@ -586,9 +586,34 @@ SHOW FULL PROCESSLIST 查看连接线程状态
 [窗口函数](https://blog.csdn.net/weixin_39010770/article/details/87862407)
 
 
+
+## 触发器
+在insert、update、或delete时，执行特定的操作
+
+
+
+
 ## 查询优化器的提示
 
 HIGH_PRIORITY 等
+
+## 优化方案
+
+1.选取最适用的字段属性
+
+2.使用连接（JOIN）来代替子查询(Sub-Queries)
+
+3.使用联合(UNION)来代替手动创建的临时表
+
+4、事务
+
+5、锁定表
+
+6、使用外键
+
+7、使用索引
+
+8、优化的查询语句
 
 
 ## 分库分表
